@@ -1,0 +1,52 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:AbortMultipartUpload",
+                "s3:ListBucket",
+                "s3:GetBucketLocation",
+                "s3:DeleteObject",
+                "s3:DeleteObjectVersion"
+            ],
+            "Resource": [
+                "arn:aws:s3:::term-project3280",
+                "arn:aws:s3:::term-project3280/*",
+                "arn:aws:s3:::aws-glue-assets-253850234776-us-west-2",
+                "arn:aws:s3:::aws-glue-assets-253850234776-us-west-2/*",
+                "arn:aws:s3:::aws-glue-assets-253850234776-us-west-2/scripts/*"
+            ]
+        },
+        {
+            "Sid": "AllowLambdaInvoke",
+            "Effect": "Allow",
+            "Action": "lambda:InvokeFunction",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "glue:*",
+            "Resource": [
+                "*",
+                "arn:aws:glue:us-west-2:253850234776:session/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "arn:aws:logs:*:*:*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "arn:aws:iam::253850234776:role/GlueAggregateDataTermProjectRole"
+        }
+    ]
+}

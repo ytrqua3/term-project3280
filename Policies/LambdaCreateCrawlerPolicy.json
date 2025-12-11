@@ -1,0 +1,40 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": [
+				"glue:GetDatabase",
+				"logs:CreateLogStream",
+				"glue:GetCrawlers",
+				"glue:GetCrawler",
+				"glue:GetTables",
+				"glue:StartCrawler",
+				"glue:CreateDatabase",
+				"logs:CreateLogGroup",
+				"logs:PutLogEvents",
+				"glue:GetCrawlerMetrics",
+				"glue:UpdateCrawler",
+				"glue:CreateCrawler"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"s3:GetObject",
+				"s3:ListBucket",
+				"s3:DeleteObject"
+			],
+			"Resource": [
+				"arn:aws:s3:::term-project3280/*",
+				"arn:aws:s3:::term-project3280"
+			]
+		},
+		{
+			"Effect": "Allow",
+			"Action": "iam:PassRole",
+			"Resource": "arn:aws:iam::253850234776:role/GlueCrawlerFromS3Role"
+		}
+	]
+}
