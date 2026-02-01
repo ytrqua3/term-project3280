@@ -40,6 +40,7 @@ Output Data:
 
 <h3>Workflow</h3>
 Workflow for 1,2:
+![workflow graph[(https://github.com/ytrqua3/term-project3280/blob/a5ca99bf960f2c5d2f982420f44adebc5401067b/assets/workflow.png)
 ![workflow graph](https://github.com/ytrqua3/term-project3280/blob/a5ca99bf960f2c5d2f982420f44adebc5401067b/assets/workflow.png)
 
 Workflow for 3:
