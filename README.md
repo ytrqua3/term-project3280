@@ -56,23 +56,21 @@ Infrastructure
 
 S3 
 
-term-project3280/ 
-|------------user_data/ 
-│   		|-------user_top_artists/ 
-│   		└-------user_data/ 
-|-------------raw_parquet/ 
-│   		├--- user_top_artists/ 
-│   		└---- user_data/ 
-|------------- processed_parquet/ 
-│   		├--- artist_rank_in_country/ 
-│   		├--- country_rank_per_artist/ 
-│   		└── user_embedding/ 
-├-------------glue_jobs/ 
-├------------ lambda_functions/ 
-├------------ lambda_layer/ 
-└── ----------athena_results/ 
-
- 
+term-project3280/ <br/>
+|------------user_data/ <br/>
+│   		|-------user_top_artists/ <br/>
+│   		└-------user_data/ <br/>
+|-------------raw_parquet/ <br/>
+│   		├--- user_top_artists/ <br/>
+│   		└---- user_data/ <br/>
+|------------- processed_parquet/ <br/>
+│   		├--- artist_rank_in_country/ <br/>
+│   		├--- country_rank_per_artist/ <br/>
+│   		└── user_embedding/ <br/>
+├-------------glue_jobs/ <br/>
+├------------ lambda_functions/ <br/>
+├------------ lambda_layer/ <br/>
+└── ----------athena_results/ <br/>
 
 Glue ETL Jobs 
 
