@@ -1,12 +1,9 @@
-#Term Project for CPSC 3289
-Introduction 
-
+<h2>Term Project for CPSC 3280</h2>h2>
+<h3>Introduction </h3>
 Purpose	
   1. Provide fast query on data through api endpoint 
   2. Process and aggregate data 
   3. Prepare data for downstream machine learning task 
-
- 
 
 Input Data: 
 Music Listening Data (~500k Users) <br/>
@@ -25,8 +22,6 @@ Tables used: users, user_top_artists
       -> playcount (BIGINT) 
       -> mbid (TEXT, may be empty) 
 
- 
-
 Output Data: 
 
   1. Country rank per artist 
@@ -43,7 +38,7 @@ Output Data:
   3. User Embeddings: each user is represented as a vector in a 50 dimension space, vectors are created by word2vec by feeding in rank of users’ artist as a sentence. So users with similar prefernces for music will have vectors that are closer together. 
       - 50 dimensions (DOUBLE) 
 
- 
+<h3>Workflow</h3>
 Workflow for 1,2:
 ![workflow graph](https://github.com/ytrqua3/term-project3280/blob/68152255c5bb746f690100fc3026cf77c0d1ab78/assets/workflow.png)
 
@@ -52,10 +47,9 @@ Api get request -> λ: start_embedding_job -> Glue ETL: embedding_job -> λ: cre
 (Since embedding utilizes word2vec which is a simple neural network model, the process is expensive. Therefore, it is only ran when needed.) 
 
 
-Infrastructure 
+<h3>Infrastructure </h3>
 
 S3 
-
 term-project3280/ <br/>
 |------------user_data/ <br/>
 │   		|-------user_top_artists/ <br/>
@@ -112,14 +106,12 @@ Glue DataBase
       -> processed_parquet_artist_rank_in_country
       -> processed_parquet_user_embedding 
 
- 
-
 Glue Crawlers 
   - raw_data_crawler: term-project3280/raw_parquet/user_data/ and term-project3280/raw_parquet/user_top_artists/ 
   - processed_data_crawler: term-project3280/processed_parquet/artist_rank_in_country/ and term-project3280/processed_parquet/country_rank_per_artist/ 
   - embedding_data_crawler: term-project3280/processed_parquet/user_embedding/ 
 
-Glue ETL Explaination 
+<h3>Glue ETL Explaination </h3>
   - Music_csv_to_parquet 
       1. Store all csv object paths under user_data folder into raw_csv_s3_paths variable 
       2. Loop through all the csv objects to convert them into pyspark dataframe then write them in parquet format into raw_parquet folder (I used append instead of overwrite mode when writing parquet to ensure that new csv files can be added to the collection of data to ensure scalability) 
@@ -150,7 +142,7 @@ Glue ETL Explaination
 
  
 
-Conclusion 
+<h3>Conclusion </h3>
 After running through the data pipeline, use postman to obtain the results 
 
 Get 5 rows with artist_name Drake from unprocessed table 
