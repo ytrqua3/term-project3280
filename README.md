@@ -40,9 +40,9 @@ Output Data:
 
 <h3>Workflow</h3>
 Workflow for 1,2:<br/>
-Get 5 rows with artist_name Drake from unprocessed table 
-![result for Drake1](https://github.com/ytrqua3/term-project3280/blob/68152255c5bb746f690100fc3026cf77c0d1ab78/assets/conclusion1.png)
 
+![result for Drake1](https://github.com/ytrqua3/term-project3280/blob/68152255c5bb746f690100fc3026cf77c0d1ab78/assets/workflow.png)
+ 
 Workflow for 3:
 Api get request -> λ: start_embedding_job -> Glue ETL: embedding_job -> λ: createCrawlerForEmbedding -> Glue Crawler: embedding_data_crawler -> Glue Database: music_db -> λ: ApiQueryHandler <br/>
 (Since embedding utilizes word2vec which is a simple neural network model, the process is expensive. Therefore, it is only ran when needed.) 
