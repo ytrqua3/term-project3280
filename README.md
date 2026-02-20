@@ -40,6 +40,7 @@ Output Data:
 
 <h3>Workflow</h3>
 Workflow for 1,2:<br/>
+Get 5 rows with artist_name Drake from unprocessed table 
 ![result for Drake1](https://github.com/ytrqua3/term-project3280/blob/68152255c5bb746f690100fc3026cf77c0d1ab78/assets/conclusion1.png)
 
 Workflow for 3:
