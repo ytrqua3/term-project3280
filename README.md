@@ -113,6 +113,7 @@ Glue Crawlers <br/>
   - embedding_data_crawler: term-project3280/processed_parquet/user_embedding/ <br/>
 
 <h3>Glue ETL Explaination </h3>
+
   - Music_csv_to_parquet <br/>
       1. Store all csv object paths under user_data folder into raw_csv_s3_paths variable <br/>
       2. Loop through all the csv objects to convert them into pyspark dataframe then write them in parquet format into raw_parquet folder (I used append instead of overwrite mode when writing parquet to ensure that new csv files can be added to the collection of data to ensure scalability) <br/>
