@@ -67,79 +67,79 @@ term-project3280/ <br/>
 ├------------ lambda_layer/ <br/>
 └── ----------athena_results/ <br/>
 
-Glue ETL Jobs 
+Glue ETL Jobs <br/>
 
-  1. Music_csv_to_parquet: transforms csv uploaded to term-project3280/user_data/ into parquet format and store in term-project3280/raw_parquet/ then delete the csv file to free up storage 
+  1. Music_csv_to_parquet: transforms csv uploaded to term-project3280/user_data/ into parquet format and store in term-project3280/raw_parquet/ then delete the csv file to free up storage <br/>
 
-  2. Aggregate_data: produce artist_rank_in_country and country_rank_per_artist table then store in term-project3280/processed_parquet/ 
+  2. Aggregate_data: produce artist_rank_in_country and country_rank_per_artist table then store in term-project3280/processed_parquet/ <br/>
 
-  3. Embedding_job: produce user embedding table then store term-project3280/processed_parquet/ 
-
- 
-
-Lambda Function 
-
-  1. CreateCrawlerForMusicData: create and run raw_data_crawler 
-
-  2. CreateCrawlerForProcessedData: create and run processed_data_crawler 
-
-  3. CreateCrawlerForEmbedding: create and run embedding_data_crawler 
-
-  4. Raw_csv_update_trigger: start music_csv_to_parquet glue job 
-
-  5. Start_aggregate_job: start aggregate_data glue job 
-
-  6. Start_embedding_job: start embedding_job glue job 
-
-  7. Raw_parquet_distributer: invokes CreateCrawlerForMusicData and	Start_aggregate_job 
-
-  8. ApiQueryHandler: accepts post request with sql query as body and responses with json format of query result 
+  3. Embedding_job: produce user embedding table then store term-project3280/processed_parquet/ <br/>
 
  
 
-Lambda Layer: Boto3, numpy, pandas 
+Lambda Function <br/>
 
-Glue DataBase 
-  - Music_db
-      -> raw_parquet_user_data 
-      -> raw_parquet_user_top_artists
-      -> processed_parquet_country_rank_per_artist 
-      -> processed_parquet_artist_rank_in_country
-      -> processed_parquet_user_embedding 
+  1. CreateCrawlerForMusicData: create and run raw_data_crawler <br/>
 
-Glue Crawlers 
-  - raw_data_crawler: term-project3280/raw_parquet/user_data/ and term-project3280/raw_parquet/user_top_artists/ 
-  - processed_data_crawler: term-project3280/processed_parquet/artist_rank_in_country/ and term-project3280/processed_parquet/country_rank_per_artist/ 
-  - embedding_data_crawler: term-project3280/processed_parquet/user_embedding/ 
+  2. CreateCrawlerForProcessedData: create and run processed_data_crawler <br/>
+
+  3. CreateCrawlerForEmbedding: create and run embedding_data_crawler <br/>
+
+  4. Raw_csv_update_trigger: start music_csv_to_parquet glue job <br/>
+
+  5. Start_aggregate_job: start aggregate_data glue job <br/>
+
+  6. Start_embedding_job: start embedding_job glue job <br/>
+
+  7. Raw_parquet_distributer: invokes CreateCrawlerForMusicData and	Start_aggregate_job <br/>
+
+  8. ApiQueryHandler: accepts post request with sql query as body and responses with json format of query result <br/>
+
+ 
+
+Lambda Layer: Boto3, numpy, pandas <br/>
+
+Glue DataBase <br/>
+  - Music_db<br/>
+      -> raw_parquet_user_data <br/>
+      -> raw_parquet_user_top_artists<br/>
+      -> processed_parquet_country_rank_per_artist <br/>
+      -> processed_parquet_artist_rank_in_country<br/>
+      -> processed_parquet_user_embedding <br/>
+
+Glue Crawlers <br/>
+  - raw_data_crawler: term-project3280/raw_parquet/user_data/ and term-project3280/raw_parquet/user_top_artists/ <br/>
+  - processed_data_crawler: term-project3280/processed_parquet/artist_rank_in_country/ and term-project3280/processed_parquet/country_rank_per_artist/ <br/>
+  - embedding_data_crawler: term-project3280/processed_parquet/user_embedding/ <br/>
 
 <h3>Glue ETL Explaination </h3>
-  - Music_csv_to_parquet 
-      1. Store all csv object paths under user_data folder into raw_csv_s3_paths variable 
-      2. Loop through all the csv objects to convert them into pyspark dataframe then write them in parquet format into raw_parquet folder (I used append instead of overwrite mode when writing parquet to ensure that new csv files can be added to the collection of data to ensure scalability) 
-      3. Delete all the csv objects to save up space
-      4. Invoke raw_parquet_disributer to automate the further steps 
+  - Music_csv_to_parquet <br/>
+      1. Store all csv object paths under user_data folder into raw_csv_s3_paths variable <br/>
+      2. Loop through all the csv objects to convert them into pyspark dataframe then write them in parquet format into raw_parquet folder (I used append instead of overwrite mode when writing parquet to ensure that new csv files can be added to the collection of data to ensure scalability) <br/>
+      3. Delete all the csv objects to save up space<br/>
+      4. Invoke raw_parquet_disributer to automate the further steps <br/><br/>
 
-  - Aggregate_data (artist_rank_in_country) 
-      1. Inner join the two dataframes so each user has a country attribute
-      2. Find the total playcount of each artist in each country using groupby and sum
-      3. Add a column for the artist’s rank in country using Window(for each country put the artists in descending order of playcount)
-      4. Store the dataframe in s3 
+  - Aggregate_data (artist_rank_in_country) <br/>
+      1. Inner join the two dataframes so each user has a country attribute<br/>
+      2. Find the total playcount of each artist in each country using groupby and sum<br/>
+      3. Add a column for the artist’s rank in country using Window(for each country put the artists in descending order of playcount)<br/>
+      4. Store the dataframe in s3 <br/><br/>
 
-   - Aggregate_data (country_rank_per_artist) 
-      1. Get each countries’ total playcount using groupby
-      2. Join the dataframe with playcount of each artist in each country with the country total playcount dataframe
-      3. Calculate normalized_popularity of artist in a certain country by Artist's playcount in country / country total playcount
-      5. Add a column for the country’s rank for that artist using Window(one artist as a group)
-      6. Store the dataframe to s3 
+   - Aggregate_data (country_rank_per_artist) <br/>
+      1. Get each countries’ total playcount using groupby<br/>
+      2. Join the dataframe with playcount of each artist in each country with the country total playcount dataframe<br/>
+      3. Calculate normalized_popularity of artist in a certain country by Artist's playcount in country / country total playcount<br/>
+      5. Add a column for the country’s rank for that artist using Window(one artist as a group)<br/>
+      6. Store the dataframe to s3 <br/><br/>
 
-  - Embedding_job 
-      Purpose: get a vector that describes each artist, the closer the vectors of two artists 		are, the more similar their styles are. (they appear in similar context) 
-      *Note that the sequence fed into word2vec model is weighted, so artists with more 	playcount has a higher weight 
-      1. Get weight column: weight = round(1+log10(playcount)) , this is log scaled
-      2. Have a row repeat itself according to weight using explode function
-      3. Form artist_sequence for each user using groupby user_id then collect artist column as a list (since it is exploaded, the weight is applied)
-      4. Now the dataframe is a sequence of artists per user, feed that into word2vec
-      5. Obtain the vectors for each artist then store it in s3. 
+  - Embedding_job <br/>
+      Purpose: get a vector that describes each artist, the closer the vectors of two artists are, the more similar their styles are. (they appear in similar context) <br/>
+      *Note that the sequence fed into word2vec model is weighted, so artists with more 	playcount has a higher weight <br/>
+      1. Get weight column: weight = round(1+log10(playcount)) , this is log scaled<br/>
+      2. Have a row repeat itself according to weight using explode function<br/>
+      3. Form artist_sequence for each user using groupby user_id then collect artist column as a list (since it is exploaded, the weight is applied)<br/>
+      4. Now the dataframe is a sequence of artists per user, feed that into word2vec<br/>
+      5. Obtain the vectors for each artist then store it in s3. <br/>
 
  
 
