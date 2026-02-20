@@ -39,7 +39,7 @@ Output Data:
       - 50 dimensions (DOUBLE) 
 
 <h3>Workflow</h3>
-Workflow for 1,2:
+Workflow for 1,2:<br/>
 ![workflow graph](https://github.com/ytrqua3/term-project3280/blob/717666e3201423cb9f230d1cce79df1ab14ba9f1/assets/workflow.png)
 
 Workflow for 3:
